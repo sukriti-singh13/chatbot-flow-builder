@@ -9,13 +9,12 @@ const Home = () => {
       <Header />
       <section className='main_layout'>
         <div className='left_panel'>
-        <Flow />
+          <Flow />
         </div>
-      
+
         <div className='right_panel'>
-        <NodePanel />
+          <NodePanel />
         </div>
-       
       </section>
     </div>
   );
