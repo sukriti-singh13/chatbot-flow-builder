@@ -1,5 +1,16 @@
 import { Edge, Node } from 'reactflow';
 
+/**
+ * Checks if a flow is valid based on the provided nodes and edges.
+ * A flow is considered valid if it meets the following criteria:
+ * - It has at least 2 nodes.
+ * - It has at least 1 edge.
+ * - There has to be only node without any target edge.
+ *
+ * @param nodes - An array of nodes in the flow.
+ * @param edges - An array of edges in the flow.
+ * @returns A boolean indicating whether the flow is valid or not.
+ */
 export const isFlowValid = (nodes: Node[], edges: Edge[]): boolean => {
   const nodesLength = nodes.length;
   if (nodesLength < 2) return false;
@@ -16,7 +27,7 @@ export const isFlowValid = (nodes: Node[], edges: Edge[]): boolean => {
     }
   });
 
-  if (emptyTargetHandles > 1) {
+  if (emptyTargetHandles !== 1) {
     return false;
   }
 
