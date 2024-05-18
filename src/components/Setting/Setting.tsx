@@ -1,7 +1,7 @@
-
 import { IoArrowBackOutline } from 'react-icons/io5';
 import './Setting.scss';
 import { TSettig } from './Setting.types';
+
 const Setting = ({
   setShowSettings,
   onTextChange,
@@ -20,7 +20,9 @@ const Setting = ({
         <label>Text</label>
         <textarea
           value={selectedNodeText}
-          onChange={(e) => onTextChange(e.target.value)}
+          onChange={(e) => {
+            onTextChange(e.target.value);
+          }}
         />
       </div>
     </div>

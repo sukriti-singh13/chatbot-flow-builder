@@ -17,6 +17,7 @@ import 'reactflow/dist/style.css';
 import NodePanel from '../NodePanel/NodePanel';
 import CustomNode from '../CustomNode/CustomNode';
 import Setting from '../Setting/Setting';
+import { getSelectedNode } from '../../utils/helpers';
 
 const nodeTypes = { textUpdater: CustomNode };
 let id = 0;
@@ -37,7 +38,7 @@ const Flow = ({
   onEdgesChange: (changes: EdgeChange[]) => void;
 }) => {
   const reactFlowWrapper = useRef(null);
-  const [selectedNode, setSelectedNode] = useState<Node>();
+  const [selectedNodeId, setSelectedNodeId] = useState<Node['id']>();
   const [showSettigs, setShowSettings] = useState(false);
 
   const [reactFlowInstance, setReactFlowInstance] =
@@ -76,7 +77,7 @@ const Flow = ({
         id: getId(),
         type: 'textUpdater',
         position,
-        data: { label: `Message ${id} ` },
+        data: { label: `Message ${id}` },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -87,14 +88,16 @@ const Flow = ({
     _: React.MouseEvent<Element, MouseEvent>,
     node: Node
   ) => {
-    setSelectedNode(node);
+    setSelectedNodeId(node.id);
     setShowSettings(true);
   };
-  //Function to update the node when the text is changed in the settings
+
+  const selectedNode = getSelectedNode({ nodes, nodeId: selectedNodeId });
+
   const onTextChange = (text: string) => {
-    if (!selectedNode) return;
+    if (!selectedNodeId) return;
     const newNodes = nodes.map((node) => {
-      if (node.id === selectedNode.id) {
+      if (node.id === selectedNode?.id) {
         return {
           ...node,
           data: {
@@ -127,6 +130,7 @@ const Flow = ({
       <div className='right_panel'>
         {showSettigs ? (
           <Setting
+            key={selectedNode?.id}
             selectedNodeText={selectedNode?.data.label}
             setShowSettings={setShowSettings}
             onTextChange={onTextChange}

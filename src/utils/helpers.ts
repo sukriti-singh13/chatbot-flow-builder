@@ -33,3 +33,16 @@ export const isFlowValid = (nodes: Node[], edges: Edge[]): boolean => {
 
   return true;
 };
+
+export const getSelectedNode = ({
+  nodes,
+  nodeId,
+}: {
+  nodes: Node[];
+  nodeId: string | undefined;
+}): Node | undefined => {
+  if (!nodeId) {
+    return undefined;
+  }
+  return nodes.find((node) => node.id === nodeId);
+};
