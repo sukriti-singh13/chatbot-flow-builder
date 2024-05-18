@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import './Flow.scss';
 import ReactFlow, {
   // ReactFlowProvider,
@@ -107,10 +107,7 @@ const Flow = ({
     });
     setNodes(newNodes);
   };
-  useEffect(() => {
-    console.log(nodes, 'nodess');
-    console.log(edges, 'edges');
-  }, [nodes, edges]);
+
   return (
     <div className='main_layout'>
       <div className='left_panel' ref={reactFlowWrapper}>
