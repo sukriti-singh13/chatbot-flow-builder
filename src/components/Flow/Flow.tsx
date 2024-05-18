@@ -80,10 +80,6 @@ const Flow = ({
     },
     [reactFlowInstance]
   );
-  // const onEdgesChange = useCallback(
-  //   (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-  //   [],
-  // );
   const onNodeSelection = (
     _: React.MouseEvent<Element, MouseEvent>,
     node: Node

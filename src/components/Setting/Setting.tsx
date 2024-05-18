@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { IoArrowBackOutline } from 'react-icons/io5';
 import './Setting.scss';
 import { TSettig } from './Setting.types';
