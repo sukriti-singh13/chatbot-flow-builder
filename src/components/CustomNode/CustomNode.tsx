@@ -1,21 +1,31 @@
-import React from 'react';
-import { Handle, Position } from 'reactflow';
+import { Handle, Node, NodeProps, Position } from 'reactflow';
 import './CustomNode.scss';
 import { TbMessage } from 'react-icons/tb';
-import CustomHandle from '../CustomHadle/CustomHadle';
-const CustomNode = ({ data }) => {
-  console.log(data);
+import CustomSourceHandler from '../CustomSourceHandler/CustomSourceHandler';
+
+const CustomNode = (
+  props: NodeProps<
+    {
+      label: string;
+    } & Node['data']
+  >
+) => {
   return (
     <div className='custom_node'>
-      <CustomHandle className="handle" type='target' position={Position.Left} isConnectable={2} />
       <div className='node_wrapper'>
         <div className='top_bar'>
           <TbMessage className='message_icon_small' />
           Send Message
         </div>
-        <p className='content'> {data?.label} </p>
+        <p className='content'> {props.data.label} </p>
+        <Handle className='handle' type='target' position={Position.Left} />
+        <CustomSourceHandler
+          className='source'
+          type='source'
+          position={Position.Right}
+          connectableNodes={1}
+        />
       </div>
-      <CustomHandle className="handle"  type='source' position={Position.Right} isConnectable={1} />
     </div>
   );
 };

@@ -1,42 +1,48 @@
 import React, { useCallback, useRef, useState } from 'react';
 import './Flow.scss';
 import ReactFlow, {
-  ReactFlowProvider,
+  // ReactFlowProvider,
   addEdge,
   useNodesState,
   useEdgesState,
-  Controls,
-  Handle,
+  // Controls,
+  // Handle,
+  XYPosition,
+  ReactFlowInstance,
+  Edge,
+  Connection,
+  Node,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { TEdge, TFlow } from './Flow.types';
 import NodePanel from '../NodePanel/NodePanel';
 import CustomNode from '../CustomNode/CustomNode';
 import Setting from '../Setting/Setting';
+import { TFlow } from './Flow.types';
 
-const initialNodes: TFlow = [];
-const initialEdges: TEdge = [];
+
 const nodeTypes = { textUpdater: CustomNode };
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const Flow = () => {
+const Flow = ({setToast}:TFlow) => {
   const reactFlowWrapper = useRef(null);
-  const [selectedNode, setSelectedNode] = useState(null);
+  const [selectedNode, setSelectedNode] = useState<Node>();
   const [showSettigs, setShowSettings] = useState(false);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+ 
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance>();
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
     []
   );
-  const onDragOver = useCallback((event) => {
+  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
   const onDrop = useCallback(
-    (event) => {
+    (event: React.DragEvent<HTMLDivElement>) => {
       event.preventDefault();
 
       const type = event.dataTransfer.getData('application/reactflow');
@@ -49,11 +55,11 @@ const Flow = () => {
       // reactFlowInstance.project was renamed to reactFlowInstance.screenToFlowPosition
       // and you don't need to subtract the reactFlowBounds.left/top anymore
       // details: https://reactflow.dev/whats-new/2023-11-10
-      const position = reactFlowInstance.screenToFlowPosition({
+      const position = reactFlowInstance?.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
-      });
-      const newNode = {
+      }) as XYPosition;
+      const newNode: Node = {
         id: getId(),
         type: 'textUpdater',
         position,
@@ -69,14 +75,14 @@ const Flow = () => {
   //   [],
   // );
   const onNodeSelection = (
-    event: React.MouseEvent<Element, MouseEvent>,
-    node
+    _: React.MouseEvent<Element, MouseEvent>,
+    node: Node
   ) => {
     setSelectedNode(node);
     setShowSettings(true);
   };
-const onTextChange = (text:string) => {
-  if (!selectedNode) return;
+  const onTextChange = (text: string) => {
+    if (!selectedNode) return;
     const newNodes = nodes.map((node) => {
       if (node.id === selectedNode.id) {
         return {
@@ -90,10 +96,10 @@ const onTextChange = (text:string) => {
       return node;
     });
     setNodes(newNodes);
-
-}
+  };
   return (
     <div className='main_layout'>
+     
       <div className='left_panel' ref={reactFlowWrapper}>
         <ReactFlow
           onNodeClick={(event, node) => onNodeSelection(event, node)}
@@ -109,7 +115,14 @@ const onTextChange = (text:string) => {
         />
       </div>
       <div className='right_panel'>
-        {showSettigs ? <Setting setShowSettings={setShowSettings} onTextChange={onTextChange}/> : <NodePanel />}
+        {showSettigs ? (
+          <Setting
+            setShowSettings={setShowSettings}
+            onTextChange={onTextChange}
+          />
+        ) : (
+          <NodePanel />
+        )}
       </div>
     </div>
   );
