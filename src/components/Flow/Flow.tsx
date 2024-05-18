@@ -20,8 +20,7 @@ import Setting from '../Setting/Setting';
 import { getSelectedNode } from '../../utils/helpers';
 
 const nodeTypes = { textUpdater: CustomNode };
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+
 const Flow = ({
   nodes,
   setNodes,
@@ -73,14 +72,14 @@ const Flow = ({
 
       /* Create a new node with a unique id, type 'textUpdater',
      the calculated position, and  data. */
-      const newNode: Node = {
-        id: getId(),
-        type: 'textUpdater',
-        position,
-        data: { label: `Message ${id}` },
-      };
-
-      setNodes((nds) => nds.concat(newNode));
+      setNodes((nds) =>
+        nds.concat({
+          id: `dndnode_${nds.length + 1}`,
+          type: 'textUpdater',
+          position,
+          data: { label: `Message ${nds.length + 1}` },
+        })
+      );
     },
     [reactFlowInstance]
   );
