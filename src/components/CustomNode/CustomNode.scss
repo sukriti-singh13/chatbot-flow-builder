@@ -1,0 +1,30 @@
+.custom_node {
+  border-radius: 5px;
+  border: 1px solid #000;
+  min-width: 9rem;
+}
+.node_wrapper {
+  .top_bar {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    background-color: #96ded1;
+    height: 1rem;
+    padding: 0.7rem;
+    font-size: 12px;
+  }
+  p {
+    font-size: 12px;
+  }
+  .content {
+    font-size: 14px;
+    padding: 0.5rem 1rem;
+  }
+}
+.message_icon_small {
+  font-size: 12px;
+}
+.handle {
+  width: 0.5rem;
+  height: 0.5rem;
+}

@@ -1,0 +1,14 @@
+@import '../../index.scss';
+.left_panel {
+  width: 70%;
+}
+
+.right_panel {
+  width: 30%;
+  border-left: 1px solid $secondary-color;
+}
+.main_layout {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 7vh);
+}

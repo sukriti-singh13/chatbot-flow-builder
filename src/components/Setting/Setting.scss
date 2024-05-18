@@ -1,0 +1,36 @@
+.setting_panel {
+  .settings_header {
+    height: 5vh;
+    border-bottom: 1px solid #aeaeae;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding: 0rem 2rem;
+    font-size: 14px;
+    .back{
+        cursor: pointer;
+    }
+    p {
+      text-align: center;
+    }
+  }
+  .settings_input_label {
+    border-bottom: 1px solid #aeaeae;
+    padding: 2.5rem 2rem;
+    display: grid;
+    gap: 1rem;
+    label {
+      color: #aeaeae;
+    }
+    textarea {
+      width: 100%;
+      height: 5rem;
+      border: none;
+      resize: none;
+      padding:1rem;
+      //   border:0.2px solid #aeaeae;
+      border-radius: 5px;
+      box-shadow: 1px 1px 1px 1px #aeaeae;
+    }
+  }
+}
