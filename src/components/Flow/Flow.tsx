@@ -46,6 +46,7 @@ const Flow = ({
     (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
     []
   );
+
   const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
@@ -62,13 +63,15 @@ const Flow = ({
         return;
       }
 
-      // reactFlowInstance.project was renamed to reactFlowInstance.screenToFlowPosition
-      // and you don't need to subtract the reactFlowBounds.left/top anymore
-      // details: https://reactflow.dev/whats-new/2023-11-10
+      /* Convert the screen position of the drop event to the flow position
+     using the reactFlowInstance's screenToFlowPosition method.*/
       const position = reactFlowInstance?.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       }) as XYPosition;
+
+      /* Create a new node with a unique id, type 'textUpdater',
+     the calculated position, and  data. */
       const newNode: Node = {
         id: getId(),
         type: 'textUpdater',
@@ -87,6 +90,7 @@ const Flow = ({
     setSelectedNode(node);
     setShowSettings(true);
   };
+  //Function to update the node when the text is changed in the settings
   const onTextChange = (text: string) => {
     if (!selectedNode) return;
     const newNodes = nodes.map((node) => {

@@ -23,6 +23,11 @@ const CustomHandle = ({
   const { nodeInternals, edges } = useStore(selector);
   const nodeId = useNodeId();
 
+/* Determines if a node can be connected to more nodes
+ - Returns false if there's no nodeId or if the node doesn't exist
+ - Gets the edges connected to the node
+ - Counts edges where the node is the source
+ - Returns true if the current connected nodes are fewer than the allowed connectable nodes */
   const isHandleConnectable = useMemo(() => {
     if (!nodeId) return false;
     const node = nodeInternals.get(nodeId);
