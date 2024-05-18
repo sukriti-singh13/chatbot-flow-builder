@@ -4,16 +4,20 @@ import Flow from '../../components/Flow/Flow';
 import Toast from '../../components/Toast/Toast';
 import { useState } from 'react';
 import { useEdgesState, useNodesState } from 'reactflow';
+import { isFlowValid } from '../../utils/helpers';
 
 const Home = () => {
-  const [toast, setToast] = useState({ message: '', type: '' });
+  const [toast, setToast] = useState<{
+    message: string;
+    type: 'success' | 'error' | '';
+  }>({ message: '', type: '' });
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const saveFlow = () => {
-    if (nodes.length < 2 || nodes.length - 1 !== edges.length) {
-      setToast({ message: 'Cannot save flow', type: 'error' });
-    } else {
+    if (isFlowValid(nodes, edges)) {
       setToast({ message: 'Flow saved successfully', type: 'success' });
+    } else {
+      setToast({ message: 'Cannot save flow', type: 'error' });
     }
     const toastTimeout = setTimeout(() => {
       setToast({ message: '', type: '' });

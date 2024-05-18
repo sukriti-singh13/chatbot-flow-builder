@@ -2,9 +2,11 @@
   border-radius: 5px;
   border: 1px solid #000;
   min-width: 9rem;
+  overflow: hidden;
 }
 .node_wrapper {
   .top_bar {
+    overflow: hidden;
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -19,6 +21,7 @@
   .content {
     font-size: 14px;
     padding: 0.5rem 1rem;
+    background-color: #fff;
   }
 }
 .message_icon_small {
