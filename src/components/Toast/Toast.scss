@@ -1,9 +1,19 @@
 .toast {
+
   position: absolute;
-  top: 10%;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
   padding: 1rem 2rem;
   border-radius: 5px;
   font-weight: 600;
+  font-size: 14px;
+}
+.success {
+  background-color: #28a745;
+  color: white;
+} 
+.error {
+  background-color: #dc3545;
+  color: white;
 }

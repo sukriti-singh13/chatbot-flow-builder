@@ -3,8 +3,6 @@ import './Flow.scss';
 import ReactFlow, {
   // ReactFlowProvider,
   addEdge,
-  useNodesState,
-  useEdgesState,
   // Controls,
   // Handle,
   XYPosition,
@@ -12,22 +10,35 @@ import ReactFlow, {
   Edge,
   Connection,
   Node,
+  NodeChange,
+  EdgeChange,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import NodePanel from '../NodePanel/NodePanel';
 import CustomNode from '../CustomNode/CustomNode';
 import Setting from '../Setting/Setting';
-import { TFlow } from './Flow.types';
 
 const nodeTypes = { textUpdater: CustomNode };
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const Flow = ({ setToast }: TFlow) => {
+const Flow = ({
+  nodes,
+  setNodes,
+  onNodesChange,
+  edges,
+  setEdges,
+  onEdgesChange,
+}: {
+  nodes: Node[];
+  setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  onNodesChange: (changes: NodeChange[]) => void;
+  edges: Edge[];
+  setEdges: React.Dispatch<React.SetStateAction<Edge[]>>;
+  onEdgesChange: (changes: EdgeChange[]) => void;
+}) => {
   const reactFlowWrapper = useRef(null);
   const [selectedNode, setSelectedNode] = useState<Node>();
   const [showSettigs, setShowSettings] = useState(false);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
@@ -64,7 +75,7 @@ const Flow = ({ setToast }: TFlow) => {
         position,
         data: { label: `Message ${id} ` },
       };
-      
+
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance]
@@ -96,9 +107,10 @@ const Flow = ({ setToast }: TFlow) => {
     });
     setNodes(newNodes);
   };
-  useEffect(()=>{
-    console.log(nodes,"nodess")
-  },[nodes])
+  useEffect(() => {
+    console.log(nodes, 'nodess');
+    console.log(edges, 'edges');
+  }, [nodes, edges]);
   return (
     <div className='main_layout'>
       <div className='left_panel' ref={reactFlowWrapper}>
@@ -118,7 +130,7 @@ const Flow = ({ setToast }: TFlow) => {
       <div className='right_panel'>
         {showSettigs ? (
           <Setting
-          selectedNodeText={selectedNode?.data.label}
+            selectedNodeText={selectedNode?.data.label}
             setShowSettings={setShowSettings}
             onTextChange={onTextChange}
           />

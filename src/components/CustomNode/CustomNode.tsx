@@ -20,7 +20,7 @@ const CustomNode = (
         <p className='content'> {props.data.label} </p>
         <Handle className='handle' type='target' position={Position.Left} />
         <CustomSourceHandler
-          className='source'
+          className='handle'
           type='source'
           position={Position.Right}
           connectableNodes={1}

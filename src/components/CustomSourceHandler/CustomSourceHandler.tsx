@@ -28,10 +28,11 @@ const CustomHandle = ({
     const node = nodeInternals.get(nodeId);
     if (!node) return false;
     const connectedEdges = getConnectedEdges([node], edges);
+    console.log(connectedEdges, "connectedEdges")
     const currentConnectedNodes = connectedEdges.filter(
       (edge) => edge.source === nodeId 
     ).length;
-
+console.log(currentConnectedNodes, "currentConnectedNodes")
     return currentConnectedNodes < connectableNodes;
   }, [nodeInternals, edges, nodeId, connectableNodes]);
 
