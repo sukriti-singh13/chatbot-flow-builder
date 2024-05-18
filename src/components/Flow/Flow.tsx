@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import './Flow.scss';
 import ReactFlow, {
   // ReactFlowProvider,
@@ -19,17 +19,16 @@ import CustomNode from '../CustomNode/CustomNode';
 import Setting from '../Setting/Setting';
 import { TFlow } from './Flow.types';
 
-
 const nodeTypes = { textUpdater: CustomNode };
 let id = 0;
 const getId = () => `dndnode_${id++}`;
-const Flow = ({setToast}:TFlow) => {
+const Flow = ({ setToast }: TFlow) => {
   const reactFlowWrapper = useRef(null);
   const [selectedNode, setSelectedNode] = useState<Node>();
   const [showSettigs, setShowSettings] = useState(false);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
- 
+
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
   const onConnect = useCallback(
@@ -65,7 +64,7 @@ const Flow = ({setToast}:TFlow) => {
         position,
         data: { label: `Message ${id} ` },
       };
-
+      
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance]
@@ -97,9 +96,11 @@ const Flow = ({setToast}:TFlow) => {
     });
     setNodes(newNodes);
   };
+  useEffect(()=>{
+    console.log(nodes,"nodess")
+  },[nodes])
   return (
     <div className='main_layout'>
-     
       <div className='left_panel' ref={reactFlowWrapper}>
         <ReactFlow
           onNodeClick={(event, node) => onNodeSelection(event, node)}
@@ -117,6 +118,7 @@ const Flow = ({setToast}:TFlow) => {
       <div className='right_panel'>
         {showSettigs ? (
           <Setting
+          selectedNodeText={selectedNode?.data.label}
             setShowSettings={setShowSettings}
             onTextChange={onTextChange}
           />
